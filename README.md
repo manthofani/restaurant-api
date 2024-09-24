@@ -35,14 +35,11 @@ $ npm run start:prod
 ## Run tests
 
 ```bash
-# unit tests
+# unit tests per-file
+$ npm run test user.spec.ts
+$ npm run test table.spec.ts
+$ npm run test reservation.spec.ts
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Resources
