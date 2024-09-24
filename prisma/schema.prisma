@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  username  String @id @db.VarChar(100)
+  password  String @db.VarChar(100)
+  name      String @db.VarChar(100)
+  email     String @db.VarChar(100)
+  roles     String @db.VarChar(5)
+  token     String? @db.VarChar(100)
+
+  reservations Reservation[]
+
+  @@map("users")
+
+}
+
+model Table {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  status Int
+  open_hr String @db.VarChar(10)
+  closed_hr String @db.VarChar(10)
+
+  reservations Reservation[]
+
+  @@map("tables")
+
+}
+
+model Reservation {
+  receipt Int @id @default(autoincrement())
+  reserved_time String @db.VarChar(10)
+  id_table Int
+  status Int
+  username String @db.VarChar(100)
+  email String @db.VarChar(100)
+
+  user User @relation(fields: [username], references: [username])
+  table Table @relation(fields: [id_table], references: [id])
+
+  @@map("reservations")
+}
